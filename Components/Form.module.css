@@ -1,0 +1,8 @@
+.formdiv span {
+  color: red;
+  font: italic 10px/30px Georgia, serif;
+}
+
+.submitButton {
+  margin-top: 1rem;
+}
