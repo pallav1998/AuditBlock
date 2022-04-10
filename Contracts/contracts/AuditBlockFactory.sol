@@ -150,5 +150,9 @@ contract AuditBlockFactory  {
         return daoDeatails[_dao].token_address.balanceOf(_contributor);
     }
 
+   
+    function getDaoName (address _dao) public view returns (string memory) {
+        return Dao(_dao).getDaoName();
+    }
     
  }
