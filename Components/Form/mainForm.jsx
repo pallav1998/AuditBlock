@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState } from "react";
-import DAOForm from "../../Components/DAOForm";
-import ConsumerForm from "../../Components/ConsumerForm";
+import DAOForm from "./DAOForm";
+import ConsumerForm from "./ConsumerForm";
 import styles from "./form.module.css";
 
-export default function form() {
+export default function FormComponent() {
   const [isDao, setIsDao] = useState(true);
 
   return (

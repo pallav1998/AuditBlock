@@ -4,7 +4,8 @@ import styles from "../styles/Home.module.css";
 import { ethers } from "ethers";
 import { useState } from "react";
 import Navbar from "../Components/NavBar/Navbar";
-import LandingPage from "../Components/LandingPage/LandingPage";
+// import LandingPage from "../Components/LandingPage/LandingPage";
+import FormComponent from "../Components/Form/mainForm";
 
 export default function Home() {
   const [Address, setAddress] = useState("");
@@ -39,6 +40,7 @@ export default function Home() {
           DisconnectWallet={DisconnectWallet}
         />
 
+        <FormComponent />
         {/* <LandingPage /> */}
       </main>
 

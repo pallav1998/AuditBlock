@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/link-passhref */
+/* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import styles from "./Navbar.module.css";
 import { cardBgColor } from "../Colors/colors";
@@ -24,7 +26,7 @@ function Navbar({ Address, ConnectWallet, DisconnectWallet }) {
           }}
         >
           <div className={styles.hover}>
-            <Link href="/" className={styles.links}>
+            <Link href="/dashboard" className={styles.links}>
               Dashboard
             </Link>
           </div>
