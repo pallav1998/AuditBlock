@@ -3,7 +3,10 @@ pragma solidity >=0.7.0 <0.9.0;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "./Dao.sol";
+import "./4_Dao.sol";
+
+
+
 
 contract AuditERC20 is ERC20 {
     constructor(
@@ -18,7 +21,7 @@ contract AuditERC20 is ERC20 {
     }
 }
 
-contract AuditBlockFactory {
+contract AuditBlockFactory  {
     address public owner;
     address private masterDaoAddress;
     struct DaoStruct {
@@ -27,20 +30,40 @@ contract AuditBlockFactory {
         address dao_address;
     }
 
+   struct Rate {
+       uint256 rate;
+       address sender;
+   }
     struct contributorStruct {
         address contributor_address;
-        uint256[] rating;
+        Rate[] rating;
     }
     mapping(address => contributorStruct) public contributors;
     mapping(address => mapping(address => uint256)) public isRated;
     mapping(address => DaoStruct) public daoDeatails;
     DaoStruct[] public daosArray;
 
-    function rate (uint256 _rate, address _emp) public {
+    constructor( address _masterDaoAddress) {
+        owner = msg.sender;
+        masterDaoAddress = _masterDaoAddress;
+    }
+
+    function setMasterContract (address _masterDaoAddress) public {
+        require(msg.sender == owner, "Only owner can set master contract");
+        masterDaoAddress = _masterDaoAddress;
+    }
+
+    function rateContributor (uint256 _rate, address _emp) public {
         require(isRated[_emp][msg.sender] == 0, "You have already rated this employee");
         require(_rate <= 5, "Rating must be less than or equal to 5");
         isRated[_emp][msg.sender] = _rate;
-      contributors[_emp].rating.push(_rate);
+        Rate memory _rateStruct = Rate(_rate, msg.sender);
+
+      contributors[_emp].rating.push(_rateStruct);
+    }
+
+    function getRatingOfContributor(address _emp) public view returns (contributorStruct memory) {
+        return contributors[_emp];
     }
 
     function createClone(address target) internal returns (address result) {
@@ -114,6 +137,22 @@ contract AuditBlockFactory {
     }
 
     function verifyEmployee(address _dao, address _emp) public view returns (string memory) {
-        return Dao(_dao).verifyContributor(_emp);
+        Dao dao = Dao(_dao);
+        string memory id = dao.verifyContributor(_emp);
+        return id;
     }
+
+    function getDaoTokenBalance(address _dao) public view returns (uint256) {
+        return daoDeatails[_dao].token_address.balanceOf(_dao);
+    }
+
+     function getContributorTokenBalance(address _dao, address _contributor) public view returns (uint256) {
+        return daoDeatails[_dao].token_address.balanceOf(_contributor);
+    }
+
+   
+    function getDaoName (address _dao) public view returns (string memory) {
+        return Dao(_dao).getDaoName();
+    }
+    
  }
