@@ -5,9 +5,9 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract Dao {
-    string public  dao_name;
+    string public dao_name;
     mapping(address => string) public  contributors;
-    IERC20 public  token;
+    IERC20 public token;
 
     function init (string memory _dao_name, IERC20 _token, address[] memory _addrs, string[] memory _empid ) public {
         dao_name = _dao_name;
@@ -27,5 +27,13 @@ contract Dao {
 
     function tokenBalance() public view returns (uint256) {
         return token.balanceOf(address(this));
+    }
+
+     function getDaoName() public view returns (string memory) {
+        return dao_name;
+    }
+    
+    function getTokenAddress () public view returns (IERC20) {
+         return token;
     }
 }
